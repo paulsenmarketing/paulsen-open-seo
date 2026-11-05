@@ -45,7 +45,7 @@ export interface RobotsResult {
  * from parsing so Workflows can checkpoint the text as durable step state and
  * re-derive the parsed result deterministically on replay.
  */
-async function fetchRobotsTxtText(
+export async function fetchRobotsTxtText(
   origin: string,
   access: CrawlerAccess | null | undefined,
   waitForRateLimit: RateLimitWait,
@@ -75,7 +75,7 @@ const MAX_DISCOVERY_REDIRECT_HOPS = 5;
  * policy and crawler-access headers — bot-protection credentials — are
  * re-matched against the hop's host instead of riding along to another site.
  */
-async function fetchFollowingRedirects(
+export async function fetchFollowingRedirects(
   url: string,
   timeoutMs: number,
   access: CrawlerAccess | null | undefined,
@@ -131,7 +131,7 @@ export function parseRobotsTxt(
  * Fetch and parse a sitemap (supports sitemap index recursion).
  * Returns a flat list of page URLs found.
  */
-function isProbablySitemapXml(
+export function isProbablySitemapXml(
   contentType: string | null,
   body: string,
 ): boolean {

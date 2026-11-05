@@ -4,6 +4,7 @@ import { AuditHistorySection } from "@/client/features/audit/launch/AuditHistory
 import { LaunchFormCard } from "@/client/features/audit/launch/LaunchFormCard";
 import { useLaunchController } from "@/client/features/audit/launch/useLaunchController";
 import { useHostedPlanGate } from "@/client/features/billing/HostedPlanGate";
+import { SitemapExportCard } from "@/client/features/sitemap-export/SitemapExportCard";
 import { isHostedClientAuthMode } from "@/lib/auth-mode";
 import {
   RENDERING_COST_NOTE,
@@ -43,6 +44,8 @@ export function LaunchView({
           canRenderJavaScript={controller.canRenderJavaScript}
           outOfCredits={controller.outOfCredits}
         />
+
+        <SitemapExportCard projectId={projectId} />
 
         <AuditHistorySection
           projectId={projectId}
