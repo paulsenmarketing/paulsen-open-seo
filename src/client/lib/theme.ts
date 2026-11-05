@@ -14,6 +14,10 @@ export type ThemePreference = "system" | "light" | "dark";
 const LIGHT_THEME_NAME = "openseo";
 const DARK_THEME_NAME = "openseo-dark";
 
+// Paulsen: light until someone picks otherwise. "system" is then stored like
+// any other pick, so an empty store means the default, not the OS.
+const DEFAULT_THEME_PREFERENCE: ThemePreference = "light";
+
 const THEME_STORAGE_KEY = "theme-preference";
 const THEME_CHANGE_EVENT = "theme-preference-change";
 
@@ -26,10 +30,10 @@ let unsavedThemePreference: ThemePreference | null = null;
 // `everyapp-theme` cookie (themeCookie.ts), so it carries between apps.
 const everyApp = isEveryAppClientAuthMode();
 
-/** The shared cookie, then this app's own copy, then the OS. */
+/** The shared cookie, then this app's own copy, then the default. */
 function readThemePreference(): ThemePreference {
   if (typeof window === "undefined") {
-    return "system";
+    return DEFAULT_THEME_PREFERENCE;
   }
   const shared = readThemeCookie(document.cookie);
   if (shared) {
@@ -41,12 +45,12 @@ function readThemePreference(): ThemePreference {
 
   try {
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === "light" || stored === "dark") {
+    if (stored === "light" || stored === "dark" || stored === "system") {
       return stored;
     }
-    return "system";
+    return DEFAULT_THEME_PREFERENCE;
   } catch {
-    return "system";
+    return DEFAULT_THEME_PREFERENCE;
   }
 }
 
@@ -70,11 +74,7 @@ function writeThemePreference(
 ) {
   writeThemeCookie(themePreference, gatewayUrl);
   try {
-    if (themePreference === "system") {
-      window.localStorage.removeItem(THEME_STORAGE_KEY);
-    } else {
-      window.localStorage.setItem(THEME_STORAGE_KEY, themePreference);
-    }
+    window.localStorage.setItem(THEME_STORAGE_KEY, themePreference);
     unsavedThemePreference = null;
   } catch {
     unsavedThemePreference = themePreference;
@@ -155,7 +155,7 @@ export function useThemePreference() {
   const themePreference = React.useSyncExternalStore<ThemePreference>(
     subscribeToThemePreference,
     readThemePreference,
-    () => "system",
+    () => DEFAULT_THEME_PREFERENCE,
   );
   const gatewayUrl = useQuery({
     ...everyAppAccountQueryOptions(),
@@ -192,7 +192,7 @@ export const themePreferenceInitScript = `(() => {
     var t;
     if (p === "light") t = ${JSON.stringify(LIGHT_THEME_NAME)};
     else if (p === "dark") t = ${JSON.stringify(DARK_THEME_NAME)};
-    else t = window.matchMedia("(prefers-color-scheme: dark)").matches ? ${JSON.stringify(DARK_THEME_NAME)} : ${JSON.stringify(LIGHT_THEME_NAME)};
+    else t = p === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches ? ${JSON.stringify(DARK_THEME_NAME)} : ${JSON.stringify(LIGHT_THEME_NAME)};
     document.documentElement.setAttribute("data-theme", t);
   } catch {
     document.documentElement.setAttribute("data-theme", ${JSON.stringify(LIGHT_THEME_NAME)});
