@@ -1,0 +1,127 @@
+/*
+ * Paulsen theme: OpenSEO dressed like Paulsen Metrics.
+ *
+ * Values come from Paulsen Metrics' tokens (src/lib/components/ui/theme.css
+ * in that repo) and its design rules: square corners, flat surfaces with
+ * hairline borders, shadows only on floating layers, a near-black primary
+ * action, blue for links and information, and the same chart series.
+ *
+ * This file only overrides OpenSEO's shadcn variables, so upstream changes to
+ * app.css merge cleanly. It is imported at the top of app.css, before that
+ * file's own theme blocks, so every selector here is one step more specific
+ * than the one it overrides:
+ *   :where(:root), [data-theme="openseo"]  ->  :root, html[data-theme="openseo"]
+ *   [data-theme="openseo-dark"]            ->  html[data-theme="openseo-dark"]
+ */
+
+/* Flat: cards, the content inset and outline buttons lose their small shadows.
+   Popovers, menus and dialogs keep shadow-md and up, as floating layers. */
+@theme {
+  --shadow-2xs: 0 0 #0000;
+  --shadow-xs: 0 0 #0000;
+  --shadow-sm: 0 0 #0000;
+}
+
+:root,
+html[data-theme="openseo"] {
+  /* Square corners everywhere; the rounded-* scale derives from this. */
+  --radius: 0rem;
+
+  /* Surfaces: canvas, surface, surface-muted */
+  --background: #f8fafc;
+  --foreground: #020617;
+  --card: #ffffff;
+  --card-foreground: #020617;
+  --popover: #ffffff;
+  --popover-foreground: #020617;
+
+  /* Actions: primary is the dark primary button, accent is hover rows */
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #020617;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --accent: #f1f5f9;
+  --accent-foreground: #020617;
+
+  /* Status: text colors and light tints, as in Metrics */
+  --destructive: #be123c;
+  --success: #047857;
+  --success-foreground: #ffffff;
+  --warning: #b45309;
+  --warning-foreground: #78350f;
+  --info: #2563eb;
+  --info-foreground: #ffffff;
+
+  /* Lines and focus: line, line-strong (control borders), focus */
+  --border: #e2e8f0;
+  --input: #cbd5e1;
+  --ring: #334155;
+
+  /* Chart series 1-5, in Metrics' fixed order */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+
+  /* Navigation frame around the content inset */
+  --sidebar: #f1f5f9;
+  --sidebar-foreground: #020617;
+  --sidebar-primary: #0f172a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e2e8f0;
+  --sidebar-accent-foreground: #020617;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #334155;
+}
+
+/* Metrics has no dark mode yet. This is the same slate palette inverted, so
+   OpenSEO's dark preference still looks like part of the family. */
+html[data-theme="openseo-dark"] {
+  --radius: 0rem;
+
+  --background: #020617;
+  --foreground: #f1f5f9;
+  --card: #0f172a;
+  --card-foreground: #f1f5f9;
+  --popover: #0f172a;
+  --popover-foreground: #f1f5f9;
+
+  --primary: #f1f5f9;
+  --primary-foreground: #0f172a;
+  --secondary: #1e293b;
+  --secondary-foreground: #f1f5f9;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f1f5f9;
+
+  --destructive: #fb7185;
+  --success: #34d399;
+  --success-foreground: #022c22;
+  --warning: #fbbf24;
+  --warning-foreground: #fde68a;
+  --info: #60a5fa;
+  --info-foreground: #0f172a;
+
+  --border: #1e293b;
+  --input: #334155;
+  --ring: #94a3b8;
+
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-4: #eda100;
+  --chart-5: #e87ba4;
+
+  --sidebar: #0f172a;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #f1f5f9;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: #1e293b;
+  --sidebar-ring: #94a3b8;
+}

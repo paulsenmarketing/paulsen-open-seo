@@ -153,9 +153,10 @@ export function Sidebar({
         <Link
           to="/"
           onClick={() => setOpenMobile(false)}
-          className="px-1 pb-2 text-base font-semibold text-sidebar-foreground"
+          className="flex items-center gap-2 px-1 pb-2 text-base font-semibold text-sidebar-foreground"
         >
-          OpenSEO
+          <img src="/favicon-32x32.png" alt="" className="size-5" />
+          Paulsen SEO
         </Link>
         <ProjectSwitcher
           activeProjectId={projectId}
